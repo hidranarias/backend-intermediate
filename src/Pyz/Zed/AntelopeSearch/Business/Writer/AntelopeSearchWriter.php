@@ -2,8 +2,13 @@
 
 namespace Pyz\Zed\AntelopeSearch\Business\Writer;
 
-use Orm\Zed\Antelope\Persistence\PyzAntelopeQuery;
-use Orm\Zed\AntelopeSearch\Persistence\PyzAntelopeSearchQuery;
+use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeSearchCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeSearchTransfer;
+use Generated\Shared\Transfer\AntelopeTransfer;
+use Pyz\Zed\Antelope\Business\AntelopeFacadeInterface;
+use Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchEntityManagerInterface;
+use Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchRepositoryInterface;
 use Spryker\Zed\EventBehavior\Business\EventBehaviorFacadeInterface;
 
 class AntelopeSearchWriter
@@ -11,7 +16,10 @@ class AntelopeSearchWriter
 
 
     public function __construct(
-        protected EventBehaviorFacadeInterface $eventBehaviorFacade
+        protected EventBehaviorFacadeInterface $eventBehaviorFacade,
+        protected AntelopeFacadeInterface $antelopeFace,
+        protected AntelopeSearchEntityManagerInterface $antelopeSearchEntityManager,
+        protected AntelopeSearchRepositoryInterface $antelopeSearchRepository
     ) {
     }
 
@@ -24,28 +32,69 @@ class AntelopeSearchWriter
 
     protected function writeCollectionByAntelopeIds(array $antelopeIds): void
     {
-        if (!$antelopeIds) {
-            return;
+        $antelopeTransfersIndexed = $this->getAntelopeTransfersIndexed($antelopeIds);
+        $antelopeSearchTransfersIndexed = $this->getAntelopeSearchTransfersIndexed(
+            array_keys($antelopeTransfersIndexed)
+        );
+
+        foreach ($antelopeTransfersIndexed as $antelopeId => $antelopeTransfer) {
+            $searchData = $antelopeTransfer->toArray();
+
+            $antelopeSearchTransfer = $antelopeSearchTransfersIndexed[$antelopeId] ?? new AntelopeSearchTransfer();
+
+            $antelopeSearchTransfer
+                ->setFkAntelope($antelopeId)
+                ->setData($searchData);
+
+            if ($antelopeSearchTransfer->getIdAntelopeSearch() === null) {
+                $this->antelopeSearchEntityManager->createAntelopeSearch($antelopeSearchTransfer);
+
+                continue;
+            }
+
+            $this->antelopeSearchEntityManager->updateAntelopeSearch($antelopeSearchTransfer);
+        }
+    }
+
+    /**
+     * @param int[] $antelopeIds
+     *
+     * @return AntelopeTransfer[]
+     */
+    protected function getAntelopeTransfersIndexed(array $antelopeIds): array
+    {
+        $antelopeCriteriaTransfer = (new AntelopeCriteriaTransfer())
+            ->setIdsAntelope($antelopeIds);
+
+        $antelopeTransfers = $this->antelopeFace
+            ->filterByIdAntelope_In($antelopeCriteriaTransfer);
+
+        $antelopeTransfersIndexed = [];
+        foreach ($antelopeTransfers as $antelopeTransfer) {
+            $antelopeTransfersIndexed[$antelopeTransfer->getIdAntelope()] = $antelopeTransfer;
         }
 
-        // Note: The following code should not be part of the Business Layer because it contains persistence logic.
-        // For training purposes we keep this block here to focus on the publish&synchronize process.
-        // In an optional exercise you will have the task to move the persistence logic properly into the Persistence Layer.
+        return $antelopeTransfersIndexed;
+    }
 
-        foreach ($antelopeIds as $antelopeId) {
-            $antelopeEntity = PyzAntelopeQuery::create()
-                ->filterByIdAntelope($antelopeId)
-                ->findOne();
+    /**
+     * @param int[] $antelopeIds
+     *
+     * @return AntelopeSearchTransfer[]
+     */
+    protected function getAntelopeSearchTransfersIndexed(array $antelopeIds): array
+    {
+        $antelopeSearchCriteriaTransfer = (new AntelopeSearchCriteriaTransfer())
+            ->setFksAntelope($antelopeIds);
 
-            $searchEntity = PyzAntelopeSearchQuery::create()
-                ->filterByFkAntelope($antelopeId)
-                ->findOneOrCreate();
-            $searchEntity->setFkAntelope($antelopeId);
+        $antelopeSearchTransfers = $this->antelopeSearchRepository
+            ->getAntelopeSearches($antelopeSearchCriteriaTransfer);
 
-            $searchData = $antelopeEntity->toArray();
-            $searchEntity->setData($searchData);
-
-            $searchEntity->save();
+        $antelopeSearchTransfersIndexed = [];
+        foreach ($antelopeSearchTransfers as $antelopeSearchTransfer) {
+            $antelopeSearchTransfersIndexed[$antelopeSearchTransfer->getFkAntelope()] = $antelopeSearchTransfer;
         }
+
+        return $antelopeSearchTransfersIndexed;
     }
 }

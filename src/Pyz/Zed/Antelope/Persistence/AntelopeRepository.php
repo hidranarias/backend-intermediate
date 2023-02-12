@@ -2,6 +2,7 @@
 
 namespace Pyz\Zed\Antelope\Persistence;
 
+use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
 use Generated\Shared\Transfer\AntelopeTransfer;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
@@ -18,5 +19,25 @@ class AntelopeRepository extends AbstractRepository implements AntelopeRepositor
             return null;
         }
         return $antelopeTransfer->fromArray($antelopeEntity->toArray());
+    }
+
+    /**
+     * @param AntelopeCriteriaTransfer $antelopeCriteriaTransfer
+     * @return array<AntelopeTransfer>
+     */
+    public function getAntelopes(AntelopeCriteriaTransfer $antelopeCriteriaTransfer): array
+    {
+        $antelopeEntities = $this->getFactory()->createAntelopeQuery()
+            ->filterByIdAntelope_In($antelopeCriteriaTransfer->getIdsAntelope())
+            ->find();
+
+        $antelopeTransfers = [];
+
+        foreach ($antelopeEntities as $antelopeEntity) {
+            $antelopeTransfers[] = (new AntelopeTransfer())
+                ->fromArray($antelopeEntity->toArray(), true);
+        }
+
+        return $antelopeTransfers;
     }
 }
