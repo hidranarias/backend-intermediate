@@ -8,15 +8,17 @@
 namespace Pyz\Zed\AntelopeDataImport\Business\DataImportStep;
 
 use Orm\Zed\Antelope\Persistence\PyzAntelopeQuery;
+use Pyz\Shared\AntelopeSearch\AntelopeSearchConfig;
 use Pyz\Zed\AntelopeDataImport\Business\DataSet\AntelopeDataSetInterface;
 use Spryker\Zed\DataImport\Business\Model\DataImportStep\DataImportStepInterface;
+use Spryker\Zed\DataImport\Business\Model\DataImportStep\PublishAwareStep;
 use Spryker\Zed\DataImport\Business\Model\DataSet\DataSetInterface;
 
-class AntelopeWriterStep implements DataImportStepInterface
+class AntelopeWriterStep extends PublishAwareStep implements DataImportStepInterface
 {
- /**
-  * @return void
-  */
+    /**
+     * @return void
+     */
     public function execute(DataSetInterface $dataSet): void
     {
         $antelopeEntity = PyzAntelopeQuery::create();
@@ -27,6 +29,7 @@ class AntelopeWriterStep implements DataImportStepInterface
         if ($antelope->isNew() || $antelope->isModified()) {
             $antelope->setColor($color);
             $antelope->save();
+            $this->addPublishEvents(AntelopeSearchConfig::ANTELOPE_PUBLISH, $antelope->getIdAntelope());
         }
     }
 }

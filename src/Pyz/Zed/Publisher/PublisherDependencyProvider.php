@@ -7,6 +7,8 @@
 
 namespace Pyz\Zed\Publisher;
 
+use Pyz\Shared\AntelopeSearch\AntelopeSearchConfig;
+use Pyz\Zed\AntelopeSearch\Communication\Plugin\Publisher\AntelopeWritePublisherPlugin;
 use Spryker\Shared\GlossaryStorage\GlossaryStorageConfig;
 use Spryker\Shared\PublishAndSynchronizeHealthCheck\PublishAndSynchronizeHealthCheckConfig;
 use Spryker\Zed\AssetStorage\Communication\Plugin\Publisher\Asset\AssetDeletePublisherPlugin;
@@ -83,6 +85,8 @@ use Spryker\Zed\ProductRelationStorage\Communication\Plugin\Publisher\ProductRel
 use Spryker\Zed\PublishAndSynchronizeHealthCheckSearch\Communication\Plugin\Publisher\PublishAndSynchronizeHealthCheckSearchWritePublisherPlugin;
 use Spryker\Zed\PublishAndSynchronizeHealthCheckStorage\Communication\Plugin\Publisher\PublishAndSynchronizeHealthCheckStorageWritePublisherPlugin;
 use Spryker\Zed\Publisher\PublisherDependencyProvider as SprykerPublisherDependencyProvider;
+use Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface;
+use Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherTriggerPluginInterface;
 use Spryker\Zed\SalesReturnSearch\Communication\Plugin\Publisher\ReturnReason\ReturnReasonDeletePublisherPlugin;
 use Spryker\Zed\SalesReturnSearch\Communication\Plugin\Publisher\ReturnReason\ReturnReasonWritePublisherPlugin;
 use Spryker\Zed\SalesReturnSearch\Communication\Plugin\Publisher\ReturnReasonPublisherTriggerPlugin;
@@ -90,11 +94,12 @@ use Spryker\Zed\SalesReturnSearch\Communication\Plugin\Publisher\ReturnReasonPub
 class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
 {
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getPublisherPlugins(): array
     {
         return array_merge(
+            $this->getAntelopeSearchPlugins(),
             $this->getPublishAndSynchronizeHealthCheckPlugins(),
             $this->getGlossaryStoragePlugins(),
             $this->getProductRelationStoragePlugins(),
@@ -111,6 +116,15 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
         );
     }
 
+    protected function getAntelopeSearchPlugins(): array
+    {
+        return [
+            AntelopeSearchConfig::ANTELOPE_PUBLISH_SEARCH_QUEUE => [
+                new AntelopeWritePublisherPlugin(),
+            ],
+        ];
+    }
+
     /**
      * @return array
      */
@@ -121,26 +135,6 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
                 new PublishAndSynchronizeHealthCheckStorageWritePublisherPlugin(),
                 new PublishAndSynchronizeHealthCheckSearchWritePublisherPlugin(),
             ],
-        ];
-    }
-
-    /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherTriggerPluginInterface>
-     */
-    protected function getPublisherTriggerPlugins(): array
-    {
-        return [
-            new GlossaryPublisherTriggerPlugin(),
-            new ProductRelationPublisherTriggerPlugin(),
-            new ProductAbstractLabelPublisherTriggerPlugin(),
-            new ProductLabelDictionaryPublisherTriggerPlugin(),
-            new ReturnReasonPublisherTriggerPlugin(),
-            new ProductBundlePublisherTriggerPlugin(),
-            new ProductConfigurationPublisherTriggerPlugin(),
-            new CategoryNodePublisherTriggerPlugin(),
-            new CategoryTreePublisherTriggerPlugin(),
-            new ProductCategoryPublisherTriggerPlugin(),
-            new CategoryPagePublisherTriggerPlugin(),
         ];
     }
 
@@ -159,7 +153,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductRelationStoragePlugins(): array
     {
@@ -172,18 +166,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
-     */
-    protected function getProductConfigurationStoragePlugins(): array
-    {
-        return [
-            new ProductConfigurationWritePublisherPlugin(),
-            new ProductConfigurationDeletePublisherPlugin(),
-        ];
-    }
-
-    /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductLabelStoragePlugins(): array
     {
@@ -196,7 +179,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductLabelSearchPlugins(): array
     {
@@ -208,7 +191,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getReturnReasonSearchPlugins(): array
     {
@@ -219,7 +202,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductBundleStoragePlugins(): array
     {
@@ -231,7 +214,18 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
+     */
+    protected function getProductConfigurationStoragePlugins(): array
+    {
+        return [
+            new ProductConfigurationWritePublisherPlugin(),
+            new ProductConfigurationDeletePublisherPlugin(),
+        ];
+    }
+
+    /**
+     * @return array<PublisherPluginInterface>
      */
     protected function getCategoryStoragePlugins(): array
     {
@@ -253,7 +247,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getCategoryPageSearchPlugins(): array
     {
@@ -272,7 +266,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductCategoryStoragePlugins(): array
     {
@@ -293,7 +287,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getAssetStoragePlugins(): array
     {
@@ -304,7 +298,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Zed\PublisherExtension\Dependency\Plugin\PublisherPluginInterface>
+     * @return array<PublisherPluginInterface>
      */
     protected function getProductExportPlugins(): array
     {
@@ -314,6 +308,26 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
             new ProductConcreteUpdatedMessageBrokerPublisherPlugin(),
             new ProductConcreteDeletedMessageBrokerPublisherPlugin(),
             new ProductAbstractUpdatedMessageBrokerPublisherPlugin(),
+        ];
+    }
+
+    /**
+     * @return array<PublisherTriggerPluginInterface>
+     */
+    protected function getPublisherTriggerPlugins(): array
+    {
+        return [
+            new GlossaryPublisherTriggerPlugin(),
+            new ProductRelationPublisherTriggerPlugin(),
+            new ProductAbstractLabelPublisherTriggerPlugin(),
+            new ProductLabelDictionaryPublisherTriggerPlugin(),
+            new ReturnReasonPublisherTriggerPlugin(),
+            new ProductBundlePublisherTriggerPlugin(),
+            new ProductConfigurationPublisherTriggerPlugin(),
+            new CategoryNodePublisherTriggerPlugin(),
+            new CategoryTreePublisherTriggerPlugin(),
+            new ProductCategoryPublisherTriggerPlugin(),
+            new CategoryPagePublisherTriggerPlugin(),
         ];
     }
 }
