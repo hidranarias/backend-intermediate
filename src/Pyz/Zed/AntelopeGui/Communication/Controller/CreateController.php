@@ -18,6 +18,7 @@ class CreateController extends AbstractController
     protected const URL_ANTELOPE_OVERVIEW = '/antelope-gui';
 
     protected const MESSAGE_ANTELOPE_CREATED_SUCCESS = 'Antelope was successfully created.';
+    protected const MESSAGE_ANTELOPE_CREATED_FAILURE = 'Antelope already exists';
 
     public function indexAction(Request $request): array|RedirectResponse
     {
@@ -38,6 +39,12 @@ class CreateController extends AbstractController
     protected function createAntelope(FormInterface $antelopeCreateForm): RedirectResponse
     {
         $antelopeTransfer = $antelopeCreateForm->getData();
+
+        $antelope = $this->getFactory()->getAntelopeFacade()->findAntelope($antelopeTransfer);
+        if ($antelope && $antelope->getIdAntelope()) {
+            $this->addErrorMessage(static::MESSAGE_ANTELOPE_CREATED_FAILURE);
+            return $this->redirectResponse($this->getAntelopeOverviewUrl());
+        }
 
         $this->getFactory()
             ->getAntelopeFacade()

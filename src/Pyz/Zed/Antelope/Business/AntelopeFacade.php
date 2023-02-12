@@ -8,27 +8,38 @@
 namespace Pyz\Zed\Antelope\Business;
 
 use Generated\Shared\Transfer\AntelopeTransfer;
+use Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * @method \Pyz\Zed\Antelope\Business\AntelopeBusinessFactory getFactory()
- * @method \Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface getEntityManager()
+ * @method AntelopeBusinessFactory getFactory()
+ * @method AntelopeEntityManagerInterface getEntityManager()
  */
 class AntelopeFacade extends AbstractFacade implements AntelopeFacadeInterface
 {
     /**
      * {@inheritDoc}
      *
+     * @param AntelopeTransfer $antelopeTransfer
+     *
+     * @return AntelopeTransfer
      * @api
      *
-     * @param \Generated\Shared\Transfer\AntelopeTransfer $antelopeTransfer
-     *
-     * @return \Generated\Shared\Transfer\AntelopeTransfer
      */
     public function createAntelope(AntelopeTransfer $antelopeTransfer): AntelopeTransfer
     {
         return $this->getFactory()
             ->createAntelopeWriter()
-            ->create($antelopeTransfer);
+            ->createAntelope($antelopeTransfer);
+    }
+
+    public function deleteAntelope(AntelopeTransfer $antelopeTransfer): bool
+    {
+        return $this->getFactory()->createAntelopeWriter()->deleteAntelope($antelopeTransfer);
+    }
+
+    public function findAntelope(AntelopeTransfer $antelopeTransfer): ?AntelopeTransfer
+    {
+        return $this->getFactory()->createAntelopeReader()->findAntelope($antelopeTransfer);
     }
 }
