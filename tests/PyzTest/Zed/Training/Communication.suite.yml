@@ -1,0 +1,5 @@
+actor: CommunicationTester
+suite_namespace: PyzTest\Zed\Training\Communication
+modules:
+    # enable helpers as array
+    enabled: []

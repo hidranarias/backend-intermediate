@@ -1,0 +1,23 @@
+{% extends '@Gui/Layout/layout.twig' %}
+
+{% set widget_title = 'Create Antelope' %}
+
+{% block action %}
+    {{ backActionButton(backUrl, 'Back to antelope list' | trans) }}
+{% endblock %}
+
+{% block content %}
+    {% embed '@Gui/Partials/widget.twig' %}
+        {% block widget_content %}
+            {{ form_start(antelopeCreateForm) }}
+
+            {% for field in antelopeCreateForm.children %}
+                {{ form_row(field) }}
+            {% endfor %}
+
+            <input type="submit" class="btn btn-primary safe-submit" value="{{ 'Create' | trans }}"/>
+
+            {{ form_end(antelopeCreateForm) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

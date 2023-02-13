@@ -1,0 +1,5 @@
+actor: TrainingBusinessTester
+suite_namespace: PyzTest\Zed\Training\Business
+modules:
+    # enable helpers as array
+    enabled: []

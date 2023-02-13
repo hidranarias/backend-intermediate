@@ -1,0 +1,15 @@
+{% extends template('page-blank') %}
+
+{% define data = {
+    antelope: _view.antelope,
+    store:_view.store
+} %}
+
+{% block body %}
+    {% if data.antelope is not null %}
+        <h1>My antelope has the name {{ data.antelope.name }}</h1>
+    {% else %}
+        No antelope found :(
+    {% endif %}
+    <p>Store: {{ data.store.name }}</p>
+{% endblock %}
