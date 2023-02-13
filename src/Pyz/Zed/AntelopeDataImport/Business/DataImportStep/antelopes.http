@@ -1,0 +1,10 @@
+POST localhost:9200/_search
+Content-type: application/json
+
+{
+    "query": {
+        "exists": {
+            "field": "id_antelope"
+        }
+    }
+}
