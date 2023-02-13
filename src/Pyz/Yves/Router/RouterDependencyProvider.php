@@ -7,6 +7,7 @@
 
 namespace Pyz\Yves\Router;
 
+use Pyz\Yves\Antelope\Plugin\Router\AntelopeRouteProviderPlugin;
 use Pyz\Yves\ExampleProductSalePage\Plugin\Router\ExampleProductSaleRouteProviderPlugin;
 use Spryker\Yves\HealthCheck\Plugin\Router\HealthCheckRouteProviderPlugin;
 use Spryker\Yves\Router\Plugin\RouteManipulator\LanguageDefaultPostAddRouteManipulatorPlugin;
@@ -17,6 +18,10 @@ use Spryker\Yves\Router\Plugin\Router\YvesRouterPlugin;
 use Spryker\Yves\Router\Plugin\RouterEnhancer\LanguagePrefixRouterEnhancerPlugin;
 use Spryker\Yves\Router\Plugin\RouterEnhancer\StorePrefixRouterEnhancerPlugin;
 use Spryker\Yves\Router\RouterDependencyProvider as SprykerRouterDependencyProvider;
+use Spryker\Yves\RouterExtension\Dependency\Plugin\PostAddRouteManipulatorPluginInterface;
+use Spryker\Yves\RouterExtension\Dependency\Plugin\RouteProviderPluginInterface;
+use Spryker\Yves\RouterExtension\Dependency\Plugin\RouterEnhancerPluginInterface;
+use Spryker\Yves\RouterExtension\Dependency\Plugin\RouterPluginInterface;
 use SprykerShop\Yves\AgentPage\Plugin\Router\AgentPageRouteProviderPlugin;
 use SprykerShop\Yves\AgentWidget\Plugin\Router\AgentWidgetRouteProviderPlugin;
 use SprykerShop\Yves\AvailabilityNotificationPage\Plugin\Router\AvailabilityNotificationPageRouteProviderPlugin;
@@ -57,11 +62,12 @@ use SprykerShop\Yves\WishlistPage\Plugin\Router\WishlistPageRouteProviderPlugin;
 class RouterDependencyProvider extends SprykerRouterDependencyProvider
 {
     /**
-     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouterPluginInterface>
+     * @return array<RouterPluginInterface>
      */
     protected function getRouterPlugins(): array
     {
         return [
+
             new YvesRouterPlugin(),
             new StorageRouterPlugin(),
             // This router will only be hit, when no other router was able to match/generate.
@@ -70,11 +76,12 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouteProviderPluginInterface>
+     * @return array<RouteProviderPluginInterface>
      */
     protected function getRouteProvider(): array
     {
         return [
+            new AntelopeRouteProviderPlugin(),
             new ErrorPageRouteProviderPlugin(),
             new HomePageRouteProviderPlugin(),
             new CheckoutPageRouteProviderPlugin(),
@@ -116,7 +123,7 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\PostAddRouteManipulatorPluginInterface>
+     * @return array<PostAddRouteManipulatorPluginInterface>
      */
     protected function getPostAddRouteManipulator(): array
     {
@@ -128,7 +135,7 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouterEnhancerPluginInterface>
+     * @return array<RouterEnhancerPluginInterface>
      */
     protected function getRouterEnhancerPlugins(): array
     {
