@@ -11,6 +11,9 @@ use Generated\Shared\Transfer\AntelopeTransfer;
 use Orm\Zed\Antelope\Persistence\PyzAntelope;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
+/**
+ * @method \Pyz\Zed\Antelope\Persistence\AntelopePersistenceFactory getFactory()
+ */
 class AntelopeEntityManager extends AbstractEntityManager implements AntelopeEntityManagerInterface
 {
     public function createAntelope(AntelopeTransfer $antelopeTransfer): AntelopeTransfer

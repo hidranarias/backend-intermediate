@@ -7,7 +7,6 @@
 
 namespace Pyz\Zed\AntelopeGui\Communication\Table;
 
-use Orm\Zed\Antelope\Persistence\Base\PyzAntelope;
 use Orm\Zed\Antelope\Persistence\Map\PyzAntelopeTableMap;
 use Orm\Zed\Antelope\Persistence\PyzAntelopeQuery;
 use Propel\Runtime\Collection\ObjectCollection;
@@ -16,8 +15,11 @@ use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
 class AntelopeTable extends AbstractTable
 {
-
+ /**
+  * @var string
+  */
     protected const ANTELOPEGUI_DELETE_URL = '/antelope-gui/delete';
+
     /**
      * @var string
      */
@@ -32,13 +34,20 @@ class AntelopeTable extends AbstractTable
      * @var string
      */
     protected const COL_COLOR = 'color';
+
+    /**
+     * @var string
+     */
     protected const ACTIONS = 'actions';
+
+    /**
+     * @var string
+     */
     protected const REMOVE = 'Remove';
 
     public function __construct(protected PyzAntelopeQuery $antelopeQuery)
     {
     }
-
 
     protected function configure(TableConfiguration $config): TableConfiguration
     {
@@ -47,7 +56,6 @@ class AntelopeTable extends AbstractTable
             static::COL_NAME => 'Name',
             static::COL_COLOR => 'Color',
             static::ACTIONS => static::ACTIONS,
-
 
         ]);
         $config = $config->addRawColumn($config->addRawColumn(static::ACTIONS));
@@ -68,7 +76,7 @@ class AntelopeTable extends AbstractTable
     }
 
     /**
-     * @param TableConfiguration $config
+     * @param \Spryker\Zed\Gui\Communication\Table\TableConfiguration $config
      *
      * @return array
      */
@@ -88,7 +96,7 @@ class AntelopeTable extends AbstractTable
     }
 
     /**
-     * @param ObjectCollection<PyzAntelope> $antelopeEntityCollection
+     * @param \Propel\Runtime\Collection\ObjectCollection<\Pyz\Zed\AntelopeGui\Communication\Table\PyzAntelope> $antelopeEntityCollection
      *
      * @return array
      */
@@ -96,7 +104,7 @@ class AntelopeTable extends AbstractTable
     {
         $returns = [];
         /**
-         * @var  $antelopeEntity PyzAntelope
+         * @var \Pyz\Zed\AntelopeGui\Communication\Table\PyzAntelope $antelopeEntity
          */
         foreach ($antelopeEntityCollection as $antelopeEntity) {
             $dataRow = $antelopeEntity->toArray();
@@ -107,7 +115,7 @@ class AntelopeTable extends AbstractTable
                 [
                     'id' => 'antelope-' . $antelopeEntity->getIdAntelope(),
                     'class' => 'remove-item',
-                ]
+                ],
             );
 
             $returns[] = $dataRow;

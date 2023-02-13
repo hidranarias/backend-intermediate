@@ -1,11 +1,15 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Zed\AntelopeSearch\Business\Writer;
 
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
 use Generated\Shared\Transfer\AntelopeSearchCriteriaTransfer;
 use Generated\Shared\Transfer\AntelopeSearchTransfer;
-use Generated\Shared\Transfer\AntelopeTransfer;
 use Pyz\Zed\Antelope\Business\AntelopeFacadeInterface;
 use Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchEntityManagerInterface;
 use Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchRepositoryInterface;
@@ -13,16 +17,17 @@ use Spryker\Zed\EventBehavior\Business\EventBehaviorFacadeInterface;
 
 class AntelopeSearchWriter
 {
-
-
     public function __construct(
         protected EventBehaviorFacadeInterface $eventBehaviorFacade,
         protected AntelopeFacadeInterface $antelopeFace,
         protected AntelopeSearchEntityManagerInterface $antelopeSearchEntityManager,
-        protected AntelopeSearchRepositoryInterface $antelopeSearchRepository
+        protected AntelopeSearchRepositoryInterface $antelopeSearchRepository,
     ) {
     }
 
+    /**
+     * @return void
+     */
     public function writeCollectionByAntelopeEvents(array $eventTransfers): void
     {
         $antelopeIds = $this->eventBehaviorFacade->getEventTransferIds($eventTransfers);
@@ -30,11 +35,14 @@ class AntelopeSearchWriter
         $this->writeCollectionByAntelopeIds($antelopeIds);
     }
 
+    /**
+     * @return void
+     */
     protected function writeCollectionByAntelopeIds(array $antelopeIds): void
     {
         $antelopeTransfersIndexed = $this->getAntelopeTransfersIndexed($antelopeIds);
         $antelopeSearchTransfersIndexed = $this->getAntelopeSearchTransfersIndexed(
-            array_keys($antelopeTransfersIndexed)
+            array_keys($antelopeTransfersIndexed),
         );
 
         foreach ($antelopeTransfersIndexed as $antelopeId => $antelopeTransfer) {
@@ -43,8 +51,8 @@ class AntelopeSearchWriter
             $antelopeSearchTransfer = $antelopeSearchTransfersIndexed[$antelopeId] ?? new AntelopeSearchTransfer();
 
             $antelopeSearchTransfer
-                ->setFkAntelope($antelopeId)
-                ->setData($searchData);
+            ->setFkAntelope($antelopeId)
+            ->setData($searchData);
 
             if ($antelopeSearchTransfer->getIdAntelopeSearch() === null) {
                 $this->antelopeSearchEntityManager->createAntelopeSearch($antelopeSearchTransfer);
@@ -57,17 +65,17 @@ class AntelopeSearchWriter
     }
 
     /**
-     * @param int[] $antelopeIds
+     * @param array<int> $antelopeIds
      *
-     * @return AntelopeTransfer[]
+     * @return array<\Pyz\Zed\AntelopeSearch\Business\Writer\AntelopeTransfer>
      */
     protected function getAntelopeTransfersIndexed(array $antelopeIds): array
     {
         $antelopeCriteriaTransfer = (new AntelopeCriteriaTransfer())
-            ->setIdsAntelope($antelopeIds);
+        ->setIdsAntelope($antelopeIds);
 
         $antelopeTransfers = $this->antelopeFace
-            ->filterByIdAntelope_In($antelopeCriteriaTransfer);
+        ->filterByIdAntelope_In($antelopeCriteriaTransfer);
 
         $antelopeTransfersIndexed = [];
         foreach ($antelopeTransfers as $antelopeTransfer) {
@@ -78,17 +86,17 @@ class AntelopeSearchWriter
     }
 
     /**
-     * @param int[] $antelopeIds
+     * @param array<int> $antelopeIds
      *
-     * @return AntelopeSearchTransfer[]
+     * @return array<\Generated\Shared\Transfer\AntelopeSearchTransfer>
      */
     protected function getAntelopeSearchTransfersIndexed(array $antelopeIds): array
     {
         $antelopeSearchCriteriaTransfer = (new AntelopeSearchCriteriaTransfer())
-            ->setFksAntelope($antelopeIds);
+        ->setFksAntelope($antelopeIds);
 
         $antelopeSearchTransfers = $this->antelopeSearchRepository
-            ->getAntelopeSearches($antelopeSearchCriteriaTransfer);
+        ->getAntelopeSearches($antelopeSearchCriteriaTransfer);
 
         $antelopeSearchTransfersIndexed = [];
         foreach ($antelopeSearchTransfers as $antelopeSearchTransfer) {

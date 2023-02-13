@@ -18,10 +18,6 @@ use Spryker\Yves\Router\Plugin\Router\YvesRouterPlugin;
 use Spryker\Yves\Router\Plugin\RouterEnhancer\LanguagePrefixRouterEnhancerPlugin;
 use Spryker\Yves\Router\Plugin\RouterEnhancer\StorePrefixRouterEnhancerPlugin;
 use Spryker\Yves\Router\RouterDependencyProvider as SprykerRouterDependencyProvider;
-use Spryker\Yves\RouterExtension\Dependency\Plugin\PostAddRouteManipulatorPluginInterface;
-use Spryker\Yves\RouterExtension\Dependency\Plugin\RouteProviderPluginInterface;
-use Spryker\Yves\RouterExtension\Dependency\Plugin\RouterEnhancerPluginInterface;
-use Spryker\Yves\RouterExtension\Dependency\Plugin\RouterPluginInterface;
 use SprykerShop\Yves\AgentPage\Plugin\Router\AgentPageRouteProviderPlugin;
 use SprykerShop\Yves\AgentWidget\Plugin\Router\AgentWidgetRouteProviderPlugin;
 use SprykerShop\Yves\AvailabilityNotificationPage\Plugin\Router\AvailabilityNotificationPageRouteProviderPlugin;
@@ -62,7 +58,7 @@ use SprykerShop\Yves\WishlistPage\Plugin\Router\WishlistPageRouteProviderPlugin;
 class RouterDependencyProvider extends SprykerRouterDependencyProvider
 {
     /**
-     * @return array<RouterPluginInterface>
+     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouterPluginInterface>
      */
     protected function getRouterPlugins(): array
     {
@@ -76,7 +72,7 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<RouteProviderPluginInterface>
+     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouteProviderPluginInterface>
      */
     protected function getRouteProvider(): array
     {
@@ -123,7 +119,7 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<PostAddRouteManipulatorPluginInterface>
+     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\PostAddRouteManipulatorPluginInterface>
      */
     protected function getPostAddRouteManipulator(): array
     {
@@ -135,7 +131,7 @@ class RouterDependencyProvider extends SprykerRouterDependencyProvider
     }
 
     /**
-     * @return array<RouterEnhancerPluginInterface>
+     * @return array<\Spryker\Yves\RouterExtension\Dependency\Plugin\RouterEnhancerPluginInterface>
      */
     protected function getRouterEnhancerPlugins(): array
     {

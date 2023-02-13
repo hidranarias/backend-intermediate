@@ -1,20 +1,24 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Yves\Antelope\Controller;
 
-use Pyz\Client\Antelope\AntelopeClientInterface;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Spryker\Yves\Kernel\View\View;
 
 /**
- * @method AntelopeClientInterface getClient()
+ * @method \Pyz\Client\Antelope\AntelopeClientInterface getClient()
  */
 class IndexController extends AbstractController
 {
     /**
      * @param string $name
      *
-     * @return View
+     * @return \Spryker\Yves\Kernel\View\View
      */
     public function indexAction(string $name): View
     {
@@ -25,7 +29,7 @@ class IndexController extends AbstractController
                 'antelope' => $antelope,
             ],
             [],
-            '@Antelope/views/index/index.twig'
+            '@Antelope/views/index/index.twig',
         );
     }
 }

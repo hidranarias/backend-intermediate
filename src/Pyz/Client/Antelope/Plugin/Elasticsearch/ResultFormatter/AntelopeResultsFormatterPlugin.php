@@ -10,17 +10,14 @@ namespace Pyz\Client\Antelope\Plugin\Elasticsearch\ResultFormatter;
 use Elastica\ResultSet;
 use Spryker\Client\SearchElasticsearch\Plugin\ResultFormatter\AbstractElasticsearchResultFormatterPlugin;
 
-class AntelopeResultFormatterPlugin extends AbstractElasticsearchResultFormatterPlugin
+class AntelopeResultsFormatterPlugin extends AbstractElasticsearchResultFormatterPlugin
 {
-    /**
-     * @var string
-     */
-    public const NAME = 'antelope';
+ /**
+  * @var string
+  */
+    public const NAME = 'antelopes';
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName()
     {
         return static::NAME;
     }
@@ -32,21 +29,6 @@ class AntelopeResultFormatterPlugin extends AbstractElasticsearchResultFormatter
      * @return array
      */
     protected function formatSearchResult(ResultSet $searchResult, array $requestParameters): array
-    {
-        if (!$searchResult->getResults()) {
-            return [];
-        }
-
-        return $searchResult->getResults()[0]->getSource();
-    }
-
-    /**
-     * @param \Elastica\ResultSet $searchResult
-     * @param array $requestParameters
-     *
-     * @return array
-     */
-    protected function formatSearchResults(ResultSet $searchResult, array $requestParameters): array
     {
         $response = [];
         if (!$searchResult->getResults()) {

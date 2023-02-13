@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Client\Antelope\Plugin\Elasticsearch\Query;
 
 use Elastica\Query;
@@ -16,19 +21,21 @@ class AntelopeQueryPlugin implements QueryInterface, SearchContextAwareQueryInte
      * @var string
      */
     protected const SOURCE_IDENTIFIER = 'page';
+
     /**
      * @var string
      */
     protected $name;
+
     /**
-     * @var SearchContextTransfer
+     * @var \Generated\Shared\Transfer\SearchContextTransfer
      */
     protected $searchContextTransfer;
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
-    public function __construct(string $name)
+    public function __construct(?string $name = null)
     {
         $this->name = $name;
     }
@@ -40,11 +47,14 @@ class AntelopeQueryPlugin implements QueryInterface, SearchContextAwareQueryInte
     {
         $boolQuery = (new BoolQuery())
             ->addMust(
-                new Exists('id_antelope')
-            )
-            ->addMust(
-                new MatchQuery('name', $this->name)
+                new Exists('id_antelope'),
             );
+        if ($this->name) {
+            $boolQuery->
+            addMust(
+                new MatchQuery('name', $this->name),
+            );
+        }
 
         return (new Query())
             ->setQuery($boolQuery);

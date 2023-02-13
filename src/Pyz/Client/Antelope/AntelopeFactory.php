@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Client\Antelope;
 
 use Pyz\Client\Antelope\Plugin\Elasticsearch\Query\AntelopeQueryPlugin;
@@ -9,11 +14,11 @@ use Spryker\Client\Search\SearchClientInterface;
 class AntelopeFactory extends AbstractFactory
 {
     /**
-     * @param string $name
+     * @param string|null $name
      *
-     * @return AntelopeQueryPlugin
+     * @return \Pyz\Client\Antelope\Plugin\Elasticsearch\Query\AntelopeQueryPlugin
      */
-    public function createAntelopeQueryPlugin(string $name): AntelopeQueryPlugin
+    public function createAntelopeQueryPlugin(?string $name = null): AntelopeQueryPlugin
     {
         return new AntelopeQueryPlugin($name);
     }
@@ -27,11 +32,18 @@ class AntelopeFactory extends AbstractFactory
     }
 
     /**
-     * @return SearchClientInterface
+     * @return array
+     */
+    public function getSearchQueryResultsFormatter(): array
+    {
+        return $this->getProvidedDependency(AntelopeDependencyProvider::ANTELOPE_RESULTS_FORMATTER_PLUGINS);
+    }
+
+    /**
+     * @return \Spryker\Client\Search\SearchClientInterface
      */
     public function getSearchClient(): SearchClientInterface
     {
         return $this->getProvidedDependency(AntelopeDependencyProvider::CLIENT_SEARCH);
     }
 }
-

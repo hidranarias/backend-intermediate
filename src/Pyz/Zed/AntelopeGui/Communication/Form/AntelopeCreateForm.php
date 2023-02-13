@@ -7,14 +7,13 @@
 
 namespace Pyz\Zed\AntelopeGui\Communication\Form;
 
-use Pyz\Zed\AntelopeGui\Communication\AntelopeGuiCommunicationFactory;
 use Spryker\Zed\Kernel\Communication\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * @method AntelopeGuiCommunicationFactory getFactory()
+ * @method \Pyz\Zed\AntelopeGui\Communication\AntelopeGuiCommunicationFactory getFactory()
  */
 class AntelopeCreateForm extends AbstractType
 {
@@ -34,8 +33,9 @@ class AntelopeCreateForm extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
+     * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
+     *
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,7 +44,7 @@ class AntelopeCreateForm extends AbstractType
             ->addColorField($builder);
     }
 
-    protected function addColorField(FormBuilderInterface $builder): AntelopeCreateForm
+    protected function addColorField(FormBuilderInterface $builder): self
     {
         $builder->add(static::FIELD_COLOR, TextType::class, [
             'constraints' => [
@@ -60,7 +60,7 @@ class AntelopeCreateForm extends AbstractType
         return new NotBlank();
     }
 
-    protected function addNameField(FormBuilderInterface $builder): AntelopeCreateForm
+    protected function addNameField(FormBuilderInterface $builder): self
     {
         $builder->add(static::FIELD_NAME, TextType::class, [
             'label' => 'Name',

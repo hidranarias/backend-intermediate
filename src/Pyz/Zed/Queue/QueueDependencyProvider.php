@@ -44,7 +44,6 @@ use Spryker\Shared\UrlStorage\UrlStorageConstants;
 use Spryker\Zed\Event\Communication\Plugin\Queue\EventQueueMessageProcessorPlugin;
 use Spryker\Zed\Event\Communication\Plugin\Queue\EventRetryQueueMessageProcessorPlugin;
 use Spryker\Zed\Kernel\Container;
-use Spryker\Zed\Queue\Dependency\Plugin\QueueMessageProcessorPluginInterface;
 use Spryker\Zed\Queue\QueueDependencyProvider as SprykerDependencyProvider;
 use Spryker\Zed\Synchronization\Communication\Plugin\Queue\SynchronizationSearchQueueMessageProcessorPlugin;
 use Spryker\Zed\Synchronization\Communication\Plugin\Queue\SynchronizationStorageQueueMessageProcessorPlugin;
@@ -53,9 +52,9 @@ use SprykerEco\Zed\Loggly\Communication\Plugin\LogglyLoggerQueueMessageProcessor
 class QueueDependencyProvider extends SprykerDependencyProvider
 {
     /**
-     * @param Container $container
+     * @param \Spryker\Zed\Kernel\Container $container
      *
-     * @return array<QueueMessageProcessorPluginInterface>
+     * @return array<\Spryker\Zed\Queue\Dependency\Plugin\QueueMessageProcessorPluginInterface>
      */
     protected function getProcessorMessagePlugins(Container $container): array
     {

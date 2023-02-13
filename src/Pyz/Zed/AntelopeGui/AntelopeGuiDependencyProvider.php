@@ -17,6 +17,10 @@ class AntelopeGuiDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const PROPEL_QUERY_ANTELOPE = 'PROPEL_QUERY_ANTELOPE';
+
+    /**
+     * @var string
+     */
     public const FACADE_ANTELOPE = 'FACADE_ANTELOPE';
 
     public function provideCommunicationLayerDependencies(Container $container): Container
@@ -25,6 +29,7 @@ class AntelopeGuiDependencyProvider extends AbstractBundleDependencyProvider
 
         $this->addAntelopePropelQuery($container);
         $this->addAntelopeFacade($container);
+
         return $container;
     }
 

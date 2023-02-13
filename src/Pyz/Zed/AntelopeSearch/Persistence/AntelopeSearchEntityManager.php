@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Zed\AntelopeSearch\Persistence;
 
 use Generated\Shared\Transfer\AntelopeSearchTransfer;
@@ -8,17 +13,17 @@ use Pyz\Zed\AntelopeSearch\Persistence\Exception\AntelopeSearchNotFoundException
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
- * @method AntelopeSearchPersistenceFactory getFactory()
+ * @method \Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchPersistenceFactory getFactory()
  */
 class AntelopeSearchEntityManager extends AbstractEntityManager implements AntelopeSearchEntityManagerInterface
 {
     /**
-     * @param AntelopeSearchTransfer $antelopeSearchTransfer
+     * @param \Generated\Shared\Transfer\AntelopeSearchTransfer $antelopeSearchTransfer
      *
-     * @return AntelopeSearchTransfer
+     * @return \Generated\Shared\Transfer\AntelopeSearchTransfer
      */
     public function createAntelopeSearch(
-        AntelopeSearchTransfer $antelopeSearchTransfer
+        AntelopeSearchTransfer $antelopeSearchTransfer,
     ): AntelopeSearchTransfer {
         $antelopeSearchEntity = $this->getFactory()
             ->createAntelopeSearchMapper()
@@ -35,14 +40,14 @@ class AntelopeSearchEntityManager extends AbstractEntityManager implements Antel
     }
 
     /**
-     * @param AntelopeSearchTransfer $antelopeSearchTransfer
+     * @param \Generated\Shared\Transfer\AntelopeSearchTransfer $antelopeSearchTransfer
      *
-     * @return AntelopeSearchTransfer
-     * @throws AntelopeSearchNotFoundException
+     * @throws \Pyz\Zed\AntelopeSearch\Persistence\Exception\AntelopeSearchNotFoundException
      *
+     * @return \Generated\Shared\Transfer\AntelopeSearchTransfer
      */
     public function updateAntelopeSearch(
-        AntelopeSearchTransfer $antelopeSearchTransfer
+        AntelopeSearchTransfer $antelopeSearchTransfer,
     ): AntelopeSearchTransfer {
         $antelopeSearchEntity = $this->getFactory()
             ->createAntelopeSearchQuery()
