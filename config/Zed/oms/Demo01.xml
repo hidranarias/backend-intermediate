@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<statemachine
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="spryker:oms-01"
+    xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
+    <!-- Used as example XML for OMS implementation -->
+
+    <process name="Demo01" main="true">
+        <states>
+            <state name="new"/>
+            <state name="paid"/>
+            <state name="shipped"/>
+            <state name="returned"/>
+            <state name="refunded"/>
+            <state name="closed"/>
+            <state name="unauthorized"/>
+        </states>
+
+
+        <transitions>
+            <transition>
+                            <source>new</source>
+                            <target>unauthorized</target>
+                            <event>pay</event>
+            </transition>
+            <transition condition="Demo/IsAuthorized">
+                <source>new</source>
+                <target>paid</target>
+                <event>pay</event>
+            </transition>
+            <transition>
+                <source>paid</source>
+                <target>shipped</target>
+                <event>ship</event>
+            </transition>
+
+            <transition>
+                <source>shipped</source>
+                <target>returned</target>
+                <event>return</event>
+            </transition>
+
+            <transition>
+                <source>returned</source>
+                <target>refunded</target>
+                <event>refund</event>
+            </transition>
+
+            <transition>
+                <source>shipped</source>
+                <target>closed</target>
+                <event>close</event>
+            </transition>
+
+            <transition>
+                <source>refunded</source>
+                <target>closed</target>
+                <event>close after refund</event>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="pay" onEnter="true" command="Demo/Pay"/>
+            <event name="ship" manual="true"/>
+            <event name="return" manual="true"/>
+            <event name="refund" onEnter="true"/>
+            <event name="close" timeout="14 days"/>
+            <event name="close after refund" onEnter="true"/>
+        </events>
+    </process>
+</statemachine>
