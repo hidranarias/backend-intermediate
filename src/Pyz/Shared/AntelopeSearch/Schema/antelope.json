@@ -1,0 +1,14 @@
+{
+    "mappings": {
+        "antelope": {
+            "properties": {
+                "color": {
+                    "type": "keyword"
+                },
+                "name": {
+                    "type": "text"
+                }
+            }
+        }
+    }
+}

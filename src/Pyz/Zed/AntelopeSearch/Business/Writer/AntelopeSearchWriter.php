@@ -47,12 +47,12 @@ class AntelopeSearchWriter
 
         foreach ($antelopeTransfersIndexed as $antelopeId => $antelopeTransfer) {
             $searchData = $antelopeTransfer->toArray();
-
+            $searchData['index'] = 'antelope';
             $antelopeSearchTransfer = $antelopeSearchTransfersIndexed[$antelopeId] ?? new AntelopeSearchTransfer();
 
             $antelopeSearchTransfer
-            ->setFkAntelope($antelopeId)
-            ->setData($searchData);
+                ->setFkAntelope($antelopeId)
+                ->setData($searchData);
 
             if ($antelopeSearchTransfer->getIdAntelopeSearch() === null) {
                 $this->antelopeSearchEntityManager->createAntelopeSearch($antelopeSearchTransfer);
@@ -67,15 +67,15 @@ class AntelopeSearchWriter
     /**
      * @param array<int> $antelopeIds
      *
-     * @return array<\Pyz\Zed\AntelopeSearch\Business\Writer\AntelopeTransfer>
+     * @return array<AntelopeTransfer>
      */
     protected function getAntelopeTransfersIndexed(array $antelopeIds): array
     {
         $antelopeCriteriaTransfer = (new AntelopeCriteriaTransfer())
-        ->setIdsAntelope($antelopeIds);
+            ->setIdsAntelope($antelopeIds);
 
         $antelopeTransfers = $this->antelopeFace
-        ->filterByIdAntelope_In($antelopeCriteriaTransfer);
+            ->filterByIdAntelope_In($antelopeCriteriaTransfer);
 
         $antelopeTransfersIndexed = [];
         foreach ($antelopeTransfers as $antelopeTransfer) {
@@ -88,15 +88,15 @@ class AntelopeSearchWriter
     /**
      * @param array<int> $antelopeIds
      *
-     * @return array<\Generated\Shared\Transfer\AntelopeSearchTransfer>
+     * @return array<AntelopeSearchTransfer>
      */
     protected function getAntelopeSearchTransfersIndexed(array $antelopeIds): array
     {
         $antelopeSearchCriteriaTransfer = (new AntelopeSearchCriteriaTransfer())
-        ->setFksAntelope($antelopeIds);
+            ->setFksAntelope($antelopeIds);
 
         $antelopeSearchTransfers = $this->antelopeSearchRepository
-        ->getAntelopeSearches($antelopeSearchCriteriaTransfer);
+            ->getAntelopeSearches($antelopeSearchCriteriaTransfer);
 
         $antelopeSearchTransfersIndexed = [];
         foreach ($antelopeSearchTransfers as $antelopeSearchTransfer) {

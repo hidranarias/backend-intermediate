@@ -80,4 +80,5 @@ class AntelopeSearchConfig extends AbstractBundleConfig
      * @var string
      */
     public const ANTELOPE_UNPUBLISH = 'AntelopeSearch.antelope.unpublish';
+    public const ANTELOPE_SEARCH_RESOURCE_NAME = 'antelope';
 }

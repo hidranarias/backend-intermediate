@@ -29,7 +29,7 @@ class AntelopeWriterStep extends PublishAwareStep implements DataImportStepInter
         if ($antelope->isNew() || $antelope->isModified()) {
             $antelope->setColor($color);
             $antelope->save();
-            $this->addPublishEvents(AntelopeSearchConfig::ANTELOPE_PUBLISH, $antelope->getIdAntelope());
         }
+        $this->addPublishEvents(AntelopeSearchConfig::ANTELOPE_PUBLISH, $antelope->getIdAntelope());
     }
 }

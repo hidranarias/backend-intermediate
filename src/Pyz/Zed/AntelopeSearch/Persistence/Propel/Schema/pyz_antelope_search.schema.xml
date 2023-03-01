@@ -13,6 +13,7 @@
             <parameter name="resource" value="antelope"/>
             <parameter name="key_suffix_column" value="fk_antelope"/>
             <parameter name="queue_group" value="sync.search.antelope"/>
+            <parameter name="params" value='{"type":"antelope","index":"antelope"}'/>
         </behavior>
         <behavior name="timestampable"/>
         <behavior name="event">
