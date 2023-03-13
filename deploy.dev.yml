@@ -223,7 +223,11 @@ services:
         engine: dashboard
         endpoints:
             spryker.local:
-
+    kibana:
+        engine: kibana
+        version: '7.10'
+        endpoints:
+            kibana.spryker.local:
 docker:
 
     ssl:
