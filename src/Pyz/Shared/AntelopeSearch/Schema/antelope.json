@@ -1,12 +1,36 @@
 {
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "fulltext_index_analyzer": {
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "fulltext_index_ngram_filter"]
+                },
+                "fulltext_search_analyzer": {
+                    "tokenizer": "standard",
+                    "filter": ["lowercase"]
+                }
+            },
+            "filter": {
+                "fulltext_index_ngram_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 2,
+                    "max_gram": 20
+                }
+            }
+        }
+    },
     "mappings": {
         "antelope": {
             "properties": {
                 "color": {
-                    "type": "keyword"
+                    "type": "text",
+                    "analyzer": "fulltext_search_analyzer"
                 },
                 "name": {
-                    "type": "text"
+                    "type": "text",
+                    "analyzer": "fulltext_index_analyzer"
+
                 }
             }
         }

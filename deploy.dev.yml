@@ -223,6 +223,9 @@ services:
         engine: dashboard
         endpoints:
             spryker.local:
+    kibana:
+        engine:elat
+         version:'7.10'
 
 docker:
 

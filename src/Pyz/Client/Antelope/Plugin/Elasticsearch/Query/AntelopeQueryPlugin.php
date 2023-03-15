@@ -20,7 +20,7 @@ class AntelopeQueryPlugin implements QueryInterface, SearchContextAwareQueryInte
     /**
      * @var string
      */
-    protected const SOURCE_IDENTIFIER = 'antelope';
+    protected const SOURCE_IDENTIFIER = 'page';
 
     /**
      * @var string

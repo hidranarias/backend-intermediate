@@ -1,4 +1,4 @@
-POST localhost:9200/_search
+POST localhost:9200/spryker_b2c_dev_intermediate_de_antelope
 Content-type: application/json
 
 {
