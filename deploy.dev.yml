@@ -224,9 +224,10 @@ services:
         endpoints:
             spryker.local:
     kibana:
-        engine:elat
-         version:'7.10'
-
+        engine: kibana
+        version: '7.10'
+        endpoints:
+            kibana.local:
 docker:
 
     ssl:
