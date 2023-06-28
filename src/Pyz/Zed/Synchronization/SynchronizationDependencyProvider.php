@@ -7,6 +7,7 @@
 
 namespace Pyz\Zed\Synchronization;
 
+use Pyz\Zed\AntelopeSearch\Communication\Plugin\Synchronization\AntelopeSynchronizationDataPlugin;
 use Spryker\Zed\AssetStorage\Communication\Plugin\Synchronization\AssetStorageSynchronizationDataPlugin;
 use Spryker\Zed\AvailabilityStorage\Communication\Plugin\Synchronization\AvailabilitySynchronizationDataPlugin;
 use Spryker\Zed\CategoryImageStorage\Communication\Plugin\Synchronization\CategoryImageSynchronizationDataBulkPlugin;
@@ -73,6 +74,7 @@ class SynchronizationDependencyProvider extends SprykerSynchronizationDependency
     protected function getSynchronizationDataPlugins(): array
     {
         return [
+            new AntelopeSynchronizationDataPlugin(),
             new CategoryPageSynchronizationDataBulkRepositoryPlugin(),
             new CmsPageSynchronizationDataPlugin(),
             new ProductPageSynchronizationDataPlugin(),

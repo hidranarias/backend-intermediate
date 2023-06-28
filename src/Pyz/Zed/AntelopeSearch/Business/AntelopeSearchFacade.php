@@ -1,29 +1,43 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Zed\AntelopeSearch\Business;
 
-use Generated\Shared\Transfer\EventEntityTransfer;
+use Generated\Shared\Transfer\FilterTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * @method AntelopeSearchBusinessFactory getFactory()
+ * @method \Pyz\Zed\AntelopeSearch\Business\AntelopeSearchBusinessFactory getFactory()
+ * @method \Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchEntityManagerInterface getEntityManager()
+ * @method \Pyz\Zed\AntelopeSearch\Persistence\AntelopeSearchRepositoryInterface getRepository()
  */
 class AntelopeSearchFacade extends AbstractFacade implements AntelopeSearchFacadeInterface
-
 {
     /**
      * {@inheritDoc}
      *
-     * @param EventEntityTransfer[] $eventTransfers
-     *
-     * @return void
      * @api
      *
+     * @param array<\Pyz\Zed\AntelopeSearch\Business\EventEntityTransfer> $eventTransfers
+     *
+     * @return void
      */
     public function writeCollectionByAntelopeEvents(array $eventTransfers): void
     {
         $this->getFactory()
             ->createAntelopeSearchWriter()
             ->writeCollectionByAntelopeEvents($eventTransfers);
+    }
+
+    public function findAntelopeSearchByIds(FilterTransfer $filterTransfer, array $antelopeIds = []): array
+    {
+        return $this->getFactory()->createAntelopeSearchReader()->findAntelopeSearchByIds(
+            $filterTransfer,
+            $antelopeIds,
+        );
     }
 }

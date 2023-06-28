@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Pyz\Zed\AntelopeSearch;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
@@ -7,14 +12,25 @@ use Spryker\Zed\Kernel\Container;
 
 class AntelopeSearchDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const FACADE_EVENT_BEHAVIOR = 'FACADE_EVENT_BEHAVIOR';
+
+    /**
+     * @var string
+     */
     public const PROPEL_QUERY_ANTELOPE = 'PROPEL_QUERY_ANTELOPE';
+
+    /**
+     * @var string
+     */
     public const FACADE_ANTELOPE = 'FACADE_ANTELOPE';
 
     /**
-     * @param Container $container
+     * @param \Spryker\Zed\Kernel\Container $container
      *
-     * @return Container
+     * @return \Spryker\Zed\Kernel\Container
      */
     public function providePersistenceLayerDependencies(Container $container): Container
     {
@@ -24,9 +40,9 @@ class AntelopeSearchDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @param Container $container
+     * @param \Spryker\Zed\Kernel\Container $container
      *
-     * @return Container
+     * @return \Spryker\Zed\Kernel\Container
      */
     protected function addAntelopePropelQuery(Container $container): Container
     {
@@ -34,7 +50,7 @@ class AntelopeSearchDependencyProvider extends AbstractBundleDependencyProvider
             static::PROPEL_QUERY_ANTELOPE,
             $container->factory(function () {
                 return PyzAntelopeQuery::create();
-            })
+            }),
         );
 
         return $container;
@@ -47,6 +63,7 @@ class AntelopeSearchDependencyProvider extends AbstractBundleDependencyProvider
         $container = parent::provideBusinessLayerDependencies($container);
 
         $container = $this->addEventBehaviorFacade($container);
+
         return $this->addAntelopeFacade($container);
     }
 

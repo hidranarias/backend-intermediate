@@ -11,11 +11,11 @@ use Pyz\Zed\Antelope\Business\Reader\AntelopeReader;
 use Pyz\Zed\Antelope\Business\Reader\AntelopeReaderInterface;
 use Pyz\Zed\Antelope\Business\Writer\AntelopeWriter;
 use Pyz\Zed\Antelope\Business\Writer\AntelopeWriterInterface;
-use Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
- * @method AntelopeEntityManagerInterface getEntityManager()
+ * @method \Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface getEntityManager()
+ * @method \Pyz\Zed\Antelope\Persistence\AntelopeRepositoryInterface getRepository()
  */
 class AntelopeBusinessFactory extends AbstractBusinessFactory
 {
@@ -30,5 +30,4 @@ class AntelopeBusinessFactory extends AbstractBusinessFactory
     {
         return new AntelopeReader($this->getRepository());
     }
-
 }

@@ -9,23 +9,23 @@ namespace Pyz\Zed\Antelope\Business;
 
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
 use Generated\Shared\Transfer\AntelopeTransfer;
-use Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * @method AntelopeBusinessFactory getFactory()
- * @method AntelopeEntityManagerInterface getEntityManager()
+ * @method \Pyz\Zed\Antelope\Business\AntelopeBusinessFactory getFactory()
+ * @method \Pyz\Zed\Antelope\Persistence\AntelopeEntityManagerInterface getEntityManager()
+ * @method \Pyz\Zed\Antelope\Persistence\AntelopeRepositoryInterface getRepository()
  */
 class AntelopeFacade extends AbstractFacade implements AntelopeFacadeInterface
 {
     /**
      * {@inheritDoc}
      *
-     * @param AntelopeTransfer $antelopeTransfer
-     *
-     * @return AntelopeTransfer
      * @api
      *
+     * @param \Generated\Shared\Transfer\AntelopeTransfer $antelopeTransfer
+     *
+     * @return \Generated\Shared\Transfer\AntelopeTransfer
      */
     public function createAntelope(AntelopeTransfer $antelopeTransfer): AntelopeTransfer
     {
@@ -45,9 +45,7 @@ class AntelopeFacade extends AbstractFacade implements AntelopeFacadeInterface
     }
 
     /**
-     *
-     * @return AntelopeTransfer[]
-     *
+     * @return array<\Generated\Shared\Transfer\AntelopeTransfer> @return array<AntelopeTransfer>
      */
     public function filterByIdAntelope_In(AntelopeCriteriaTransfer $antelopeCriteriaTransfer): array
     {

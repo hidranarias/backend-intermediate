@@ -5,10 +5,12 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace Pyz\Zed\AntelopeSearch\Persistence\Exception;
+namespace Pyz\Shared\AntelopeSearch;
 
-use Exception;
-
-class AntelopeSearchNotFoundException extends Exception
+interface AntelopeSearchConstants
 {
+    /**
+     * @var string
+     */
+    public const ANTELOPE_RESOURCE_NAME = 'antelope';
 }

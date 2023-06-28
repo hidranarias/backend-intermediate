@@ -16,11 +16,11 @@ interface AntelopeFacadeInterface
      * Specification:
      * - Creates a new antelope into the database
      *
-     * @param AntelopeTransfer $antelopeTransfer
-     *
-     * @return AntelopeTransfer
      * @api
      *
+     * @param \Generated\Shared\Transfer\AntelopeTransfer $antelopeTransfer
+     *
+     * @return \Generated\Shared\Transfer\AntelopeTransfer
      */
     public function createAntelope(AntelopeTransfer $antelopeTransfer): AntelopeTransfer;
 
@@ -29,9 +29,7 @@ interface AntelopeFacadeInterface
     public function deleteAntelope(AntelopeTransfer $antelopeTransfer): bool;
 
     /**
-     *
-     * @return AntelopeTransfer[]
-     *
+     * @return array<\Generated\Shared\Transfer\AntelopeTransfer> @return array<AntelopeTransfer>
      */
     public function filterByIdAntelope_In(AntelopeCriteriaTransfer $antelopeCriteriaTransfer): array;
 }
